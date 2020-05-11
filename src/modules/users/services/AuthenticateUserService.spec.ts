@@ -8,20 +8,20 @@ import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
-let repository: IUsersRepository;
+let usersRepository: IUsersRepository;
 let hashProvider: IHashProvider;
 let subject: AuthenticateUserService;
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
-    repository = new FakeUsersRepository();
+    usersRepository = new FakeUsersRepository();
     hashProvider = new FakeHashProvider();
 
-    subject = new AuthenticateUserService(repository, hashProvider);
+    subject = new AuthenticateUserService(usersRepository, hashProvider);
   });
 
   it('should be able to authenticate', async () => {
-    const createUser = new CreateUserService(repository, hashProvider);
+    const createUser = new CreateUserService(usersRepository, hashProvider);
 
     const user = await createUser.execute({
       name: 'John Doe',
@@ -48,7 +48,7 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    const createUser = new CreateUserService(repository, hashProvider);
+    const createUser = new CreateUserService(usersRepository, hashProvider);
 
     await createUser.execute({
       name: 'John Doe',

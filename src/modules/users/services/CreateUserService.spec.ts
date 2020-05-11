@@ -7,16 +7,16 @@ import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
-let repository: IUsersRepository;
+let usersRepository: IUsersRepository;
 let hashProvider: IHashProvider;
 let subject: CreateUserService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
-    repository = new FakeUsersRepository();
+    usersRepository = new FakeUsersRepository();
     hashProvider = new FakeHashProvider();
 
-    subject = new CreateUserService(repository, hashProvider);
+    subject = new CreateUserService(usersRepository, hashProvider);
   });
 
   it('should be able to create a new user', async () => {

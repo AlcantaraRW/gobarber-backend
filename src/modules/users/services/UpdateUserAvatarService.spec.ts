@@ -6,20 +6,20 @@ import IStorageProvider from '@shared/container/providers/StorageProvider/models
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 import IUsersRepository from '../repositories/IUsersRepository';
 
-let repository: IUsersRepository;
+let usersRepository: IUsersRepository;
 let storageProvider: IStorageProvider;
 let subject: UpdateUserAvatarService;
 
 describe('UpdateUserAvatar', () => {
   beforeEach(() => {
-    repository = new FakeUsersRepository();
+    usersRepository = new FakeUsersRepository();
     storageProvider = new FakeStorageProvider();
 
-    subject = new UpdateUserAvatarService(repository, storageProvider);
+    subject = new UpdateUserAvatarService(usersRepository, storageProvider);
   });
 
   it('should be able to update user avatar', async () => {
-    const user = await repository.create({
+    const user = await usersRepository.create({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',
@@ -47,7 +47,7 @@ describe('UpdateUserAvatar', () => {
   it('should delete old avatar when updating', async () => {
     const deleteFile = jest.spyOn(storageProvider, 'deleteFile');
 
-    const user = await repository.create({
+    const user = await usersRepository.create({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',

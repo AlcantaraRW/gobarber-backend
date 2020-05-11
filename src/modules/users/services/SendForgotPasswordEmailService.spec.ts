@@ -9,19 +9,19 @@ import FakeUserTokensRepository from '../repositories/fakes/FakeUserTokensReposi
 import IUsersRepository from '../repositories/IUsersRepository';
 import IUserTokensRepository from '../repositories/IUserTokensRepository';
 
-let repository: IUsersRepository;
+let usersRepository: IUsersRepository;
 let mailProvider: IMailProvider;
 let userTokensRepository: IUserTokensRepository;
 let subject: SendForgotPasswordEmailService;
 
 describe('SendForgotPasswordEmail', () => {
   beforeEach(() => {
-    repository = new FakeUsersRepository();
+    usersRepository = new FakeUsersRepository();
     mailProvider = new FakeMailProvider();
     userTokensRepository = new FakeUserTokensRepository();
 
     subject = new SendForgotPasswordEmailService(
-      repository,
+      usersRepository,
       mailProvider,
       userTokensRepository,
     );
@@ -30,7 +30,7 @@ describe('SendForgotPasswordEmail', () => {
   it('should be able to recover the password using the email', async () => {
     const sendMail = jest.spyOn(mailProvider, 'sendMail');
 
-    await repository.create({
+    await usersRepository.create({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',
@@ -54,7 +54,7 @@ describe('SendForgotPasswordEmail', () => {
   it('should generate a forgot password token', async () => {
     const generateToken = jest.spyOn(userTokensRepository, 'generate');
 
-    const user = await repository.create({
+    const user = await usersRepository.create({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',
