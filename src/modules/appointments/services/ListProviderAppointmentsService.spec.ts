@@ -1,16 +1,23 @@
 import 'reflect-metadata';
 
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import ListProviderAppointmentsService from './ListProviderAppointmentsService';
 
 let appointmentsRepository: IAppointmentsRepository;
+let cacheProvider: ICacheProvider;
 let subject: ListProviderAppointmentsService;
 
 describe('ListProviderAppointments', () => {
   beforeEach(() => {
     appointmentsRepository = new FakeAppointmentsRepository();
-    subject = new ListProviderAppointmentsService(appointmentsRepository);
+    cacheProvider = new FakeCacheProvider();
+    subject = new ListProviderAppointmentsService(
+      appointmentsRepository,
+      cacheProvider,
+    );
   });
 
   it('should be able to list the provider appointments on a specific day', async () => {
